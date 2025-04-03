@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete user</title>
+</head>
+<body>
+
+<div th:include="common.html"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form th:action="@{/admin/delete}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title fs-5" id="exampleModalLabel">Delete user</h4>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="id">ID</label>
+                        <input name="id" type="number" class="form-control" id="id" placeholder="ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">First name</label>
+                        <input name="username" type="text" class="form-control" id="username" placeholder="First name">
+                    </div>
+                    <!--                <div class="form-group">-->
+                    <!--                    <label for="lastName">Last name</label>-->
+                    <!--                    <input name="lastName" type="text" class="form-control" id="lastName" placeholder="Last name">-->
+                    <!--                </div>-->
+                    <!--                <div class="form-group">-->
+                    <!--                    <label for="age">Age</label>-->
+                    <!--                    <input name="age" type="number" class="form-control" id="age" placeholder="Age">-->
+                    <!--                </div>-->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input name="email" type="text" class="form-control" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="password">Пароль</label>
+                        <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <input name="role" type="text" class="form-control" id="role" placeholder="Role">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                    <!--                    <button type="submit" class="btn btn-primary mt-4 w-100">Edit</button>-->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,6 +1,5 @@
 package org.example.spring_boot_security.controller;
 
-import org.example.spring_boot_security.model.Role;
 import org.example.spring_boot_security.model.User;
 import org.example.spring_boot_security.model.UserRegistrationRequest;
 import org.example.spring_boot_security.service.RoleService;
@@ -13,9 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 public class LoginController {

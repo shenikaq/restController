@@ -2,31 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin</title>
+    <title>Admin panel</title>
 </head>
 <body>
-<h1>Список пользователей</h1>
-<table>
+<!--<h1>Admin panel</h1>-->
+
+<div th:include="common.html"></div>
+<div th:include="navbar.html"></div>
+<div th:include="edit.html"></div>
+
+<h4>All users</h4>
+<table class="table table-striped">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Имя пользователя</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
         <th>Email</th>
-        <th>Роли</th>
-        <th>Действия</th>
+        <th>Role</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.username}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.username}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.role}"></td>
         <td>
-            <a th:href="@{/admin/users/info?id={userId}(userId=${user.id})}">Просмотреть</a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit</button>
+<!--            <a th:href="@{/admin/users/info?id={userId}(userId=${user.id})}">Просмотреть</a>-->
+
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
+<!--            <a class="btn btn-danger" th:href="@{/admin/delete?id={userId}(userId=${user.id})}" role="button">Delete</a>-->
         </td>
     </tr>
     </tbody>
 </table>
+<!-- Модальное окно -->
 </body>
+
+
+
 </html>
