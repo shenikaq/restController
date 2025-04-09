@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Registration</title>
-    </head>
-    <body>
-    <div th:include="common.html"></div>
-    <div th:include="navbar.html"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Save user</title>
+</head>
 
-    <h4>Add new user</h4>
-
-        <form th:action="@{/register}"  method="post">
-            <div>
-                <input name="userName" placeholder="Username" type="text"/>
+<body>
+<div th:insert="~{common.html}"></div>
+<div class="row">
+    <div class="col-sm">
+        <div th:insert="~{head.html}"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <div th:insert="~{securityAdmin.html}"></div>
+    </div>
+    <div class="col">
+        <div class="container-lg">
+            <div class="row">
+                <div class="col">
+                    <h1>Admin panel</h1>
+                </div>
             </div>
-            <div>
-                <input name="email" placeholder="Email" type="email"/>
+            <div class="row">
+                <div class="col">
+                    <div th:insert="~{navbarNewUser.html}"></div>
+                </div>
             </div>
-            <div>
-                <input name="password" placeholder="Password" type="password"/>
+            <div class="row">
+                <div class="col">
+                    <h4>Add new user</h4>
+                </div>
             </div>
-            <input type="submit" value="Finish"/>
-        </form>
-
-    </body>
+            <div class="row">
+                <div class="col">
+                    <div th:insert="~{save.html}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>

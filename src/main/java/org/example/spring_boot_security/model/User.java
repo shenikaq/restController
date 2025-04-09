@@ -36,43 +36,68 @@ public class User implements UserDetails {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "age", nullable = false)
+    private int age;
 
     @Column(name = "email")
     private String email;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> role;
 
-    public User(String userName, String password, String email) {
+    public User(String userName, String lastName, int age, String email, String password) {
         this.userName = userName;
-        this.password = password;
+        this.lastName = lastName;
+        this.age = age;
         this.email = email;
+        this.password = password;
     }
 
-    public User(Long id, String userName, String password, String email) {
+    public User(String userName, String lastName, int age, String email, String password, Set<Role> role) {
+        this.userName = userName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(Long id, String userName, String lastName, int age, String email, String password) {
         this.id = id;
         this.userName = userName;
-        this.password = password;
+        this.lastName = lastName;
+        this.age = age;
         this.email = email;
+        this.password = password;
     }
 
     @Override
     public String toString() {
-        return "userName = " + userName +
-                ", \n email = " + email;
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof User user)) return false;
-        return Objects.equals(getId(), user.getId()) && Objects.equals(userName, user.userName) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getRole(), user.getRole());
+        return getAge() == user.getAge() && Objects.equals(getId(), user.getId()) && Objects.equals(userName, user.userName) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getRole(), user.getRole());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), userName, getPassword(), getEmail(), getRole());
+        return Objects.hash(getId(), userName, getLastName(), getAge(), getEmail(), getPassword(), getRole());
     }
 
     @Override

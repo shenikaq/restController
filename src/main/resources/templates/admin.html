@@ -4,50 +4,45 @@
     <meta charset="UTF-8">
     <title>Admin panel</title>
 </head>
+
+<div th:insert="~{common.html}"></div>
+<div th:insert="~{edit.html}"></div>
+<div th:insert="~{delete.html}"></div>
+
 <body>
-<!--<h1>Admin panel</h1>-->
-
-<div th:include="common.html"></div>
-<div th:include="navbar.html"></div>
-<div th:include="edit.html"></div>
-
-<h4>All users</h4>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Age</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.username}"></td>
-        <td th:text="${user.username}"></td>
-        <td th:text="${user.username}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.role}"></td>
-        <td>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit</button>
-<!--            <a th:href="@{/admin/users/info?id={userId}(userId=${user.id})}">Просмотреть</a>-->
-
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
-<!--            <a class="btn btn-danger" th:href="@{/admin/delete?id={userId}(userId=${user.id})}" role="button">Delete</a>-->
-        </td>
-    </tr>
-    </tbody>
-</table>
-<!-- Модальное окно -->
+    <div class="row">
+        <div class="col-sm">
+            <div th:insert="~{head.html}"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div th:insert="~{securityAdmin.html}"></div>
+        </div>
+        <div class="col-sm">
+            <div class="container-lg">
+                <div class="row">
+                    <div class="col-sm">
+                        <h1>Admin panel</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div th:insert="~{navbarUsersTable.html}"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <h4>All users</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div th:insert="~{tableUsers.html}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-
-
-
 </html>

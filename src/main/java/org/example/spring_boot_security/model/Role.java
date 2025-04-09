@@ -45,10 +45,7 @@ public class Role implements GrantedAuthority, Comparable<Role> {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "role='" + role + '\'' +
-                ", user=" + user +
-                '}';
+        return role;
     }
 
     @Override

@@ -1,0 +1,73 @@
+<head>
+    <style>
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: #212529;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .nav-link.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+    </style>
+</head>
+<div class="d-flex">
+    <!-- Вертикальный навбар -->
+    <nav class="sidebar">
+        <div class="nav flex-column">
+            <!-- Ссылка Admin -->
+            <a class="nav-link"
+               th:classappend="${url.equals('/admin') || url.equals('/admin/save')|| url.equals('/register')} ? 'active'"
+               th:href="@{/admin}">
+                Admin
+            </a>
+
+            <!-- Ссылка User -->
+            <a class="nav-link"
+               th:classappend="${url.equals('/admin/info')} ? 'active'"
+               th:href="@{/admin/info}">
+                User
+            </a>
+        </div>
+    </nav>
+</div>
+
+<!--#request.getRequestURI()-->
+
+<!--<p th:if="${condition}"> Этот абзац отображается, если условие истинно </p> <p th:unless="${condition}"> Этот абзац отображается, если условие ложно </p>-->
+
+<!--.navbar-brand.active {-->
+<!--color: #0d6efd !important;-->
+<!--background-color: #e7f1ff;-->
+<!--border-radius: 5px;-->
+<!--}-->
+
+<!--<nav class="navbar bg-body-tertiary">-->
+<!--    <div class="container-fluid">-->
+<!--        &lt;!&ndash; Ссылка Admin &ndash;&gt;-->
+<!--        <a class="navbar-brand"-->
+<!--           th:class="${#request.getRequestURI().equals('/admin')} ? 'nav-link active' : 'nav-link'"-->
+<!--&lt;!&ndash;           th:classappend="${#httpServletRequest.requestURI == '/admin'} ? 'active'"&ndash;&gt;-->
+<!--           href="/admin">-->
+<!--            Admin-->
+<!--        </a>-->
+
+<!--        &lt;!&ndash; Ссылка User &ndash;&gt;-->
+<!--        <a class="navbar-brand"-->
+<!--           th:classappend="${#httpServletRequest.requestURI == '/admin/info'} ? 'active'"-->
+<!--           href="/admin/info">-->
+<!--            User-->
+<!--        </a>-->
+<!--    </div>-->
+<!--</nav>-->

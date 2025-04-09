@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Save user</title>
+  <meta charset="UTF-8">
+  <title></title>
 </head>
+
 <body>
-<div th:include="common.html"></div>
+<div th:insert="~{common.html}"></div>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <form th:action="@{/process-register}" method="get">
+          <div>
+            <div class="form-group mb-3">
+              <label class="form-label text-center w-100" for="userName" style="font-weight: 700">First name</label>
+              <input name="userName" type="text" class="form-control" id="userName" placeholder="First name">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label text-center w-100" for="lastName" style="font-weight: 700">Last name</label>
+              <input name="lastName" type="text" class="form-control" id="lastName" placeholder="Last name">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label text-center w-100" for="age" style="font-weight: 700">Age</label>
+              <input name="age" type="number" class="form-control" id="age" placeholder="Age">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label text-center w-100" for="email" style="font-weight: 700">Email</label>
+              <input name="email" type="text" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label text-center w-100" for="password" style="font-weight: 700">Пароль</label>
+              <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label text-center w-100" for="role" style="font-weight: 700">Role</label>
+              <select class="form-control" multiple id="role" name="role">
+                <option th:value="ROLE_ADMIN">ROLE_ADMIN</option>
+                <option th:value="ROLE_USER">ROLE_USER</option>
+              </select>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-success btn-sm px-4">Add new user</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
 </body>
 </html>

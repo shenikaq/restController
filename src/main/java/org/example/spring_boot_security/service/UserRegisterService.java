@@ -31,7 +31,7 @@ public class UserRegisterService {
             // Хеширование пароля
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             // Сохраняем пользователя
-            userService.save(user);
+//            userService.save(user);
             return "redirect:/login?registered=true";
         } else {
             return "register";

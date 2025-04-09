@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -31,34 +32,27 @@ public class DataInitializer implements CommandLineRunner {
         Role role1 = new Role("ROLE_USER");
         Role role2 = new Role("ROLE_ADMIN");
         //// Сохраняем роли в БД
-        role1 = roleService.save(role1);
-        role2 = roleService.save(role2);
+        roleService.save(role1);
+        roleService.save(role2);
 
-        Set<Role> roleUser = new HashSet<>();
-        roleUser.add(role1);
+//        Set<Role> roleUser = new HashSet<>();
+//        roleUser.add(role1);
+//
+//        Set<Role> roleAdmin = new HashSet<>();
+//        roleAdmin.add(role2);
+//        roleAdmin.add(role1);
 
-        Set<Role> roleAdmin = new HashSet<>();
-        roleAdmin.add(role2);
-        roleAdmin.add(role1);
+        Set<String> admin = new HashSet<>();
+        admin.add("ROLE_ADMIN");
+        admin.add("ROLE_USER");
 
-        //// Создаем пользователя
-        User user1 = new User("dasha", passwordEncoder.encode("dasha"), "dasha@dd.ru");
-        //// Назначаем роли пользователю
-        user1.setRole(roleAdmin);
-        //// Сохраняем пользователя
-        userService.save(user1);
+//        Set<String> user = new HashSet<>();
+//        user.add("ROLE_USER");
 
-        User user2 = new User("Alice", passwordEncoder.encode("aa"), "alice@aa.ru");
-        user2.setRole(roleUser);
-        userService.save(user2);
-
-        User user3 = new User("Sara", passwordEncoder.encode("ss"), "sara@ss.com");
-        user3.setRole(roleUser);
-        userService.save(user3);
-
-        User user4 = new User("Flora", passwordEncoder.encode("ff"), "flora@ff.com");
-        user4.setRole(roleUser);
-        userService.save(user4);
+        userService.save("dasha", "Last", 22, "dasha@dd.ru", passwordEncoder.encode("dasha"), admin);
+        userService.save("Alice", "Saf", 32, "alice@aa.ru", passwordEncoder.encode("aa"), "ROLE_USER");
+        userService.save("Sara", "Bel", 12, "sara@ss.com", passwordEncoder.encode("ss"), "ROLE_USER");
+        userService.save("Flora", "Kas", 42, "flora@ff.com", passwordEncoder.encode("ff"), "ROLE_USER");
 
     }
 
