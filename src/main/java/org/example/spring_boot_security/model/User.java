@@ -1,15 +1,19 @@
 package org.example.spring_boot_security.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +26,7 @@ import java.util.Set;
 
 @Setter
 @Getter
-@EqualsAndHashCode
+//@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -48,7 +52,13 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+    foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT) // Отключаем FK
+    )
     private Set<Role> role;
 
     public User(String userName, String lastName, int age, String email, String password) {

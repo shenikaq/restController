@@ -28,7 +28,7 @@
         <div class="nav flex-column">
             <!-- Ссылка Admin -->
             <a class="nav-link"
-               th:classappend="${url.equals('/admin') || url.equals('/admin/save')|| url.equals('/register')} ? 'active'"
+               th:classappend="${url.equals('/admin') || url.equals('/admin/save') || url.equals('/register')} ? 'active'"
                th:href="@{/admin}">
                 Admin
             </a>
@@ -43,31 +43,3 @@
     </nav>
 </div>
 
-<!--#request.getRequestURI()-->
-
-<!--<p th:if="${condition}"> Этот абзац отображается, если условие истинно </p> <p th:unless="${condition}"> Этот абзац отображается, если условие ложно </p>-->
-
-<!--.navbar-brand.active {-->
-<!--color: #0d6efd !important;-->
-<!--background-color: #e7f1ff;-->
-<!--border-radius: 5px;-->
-<!--}-->
-
-<!--<nav class="navbar bg-body-tertiary">-->
-<!--    <div class="container-fluid">-->
-<!--        &lt;!&ndash; Ссылка Admin &ndash;&gt;-->
-<!--        <a class="navbar-brand"-->
-<!--           th:class="${#request.getRequestURI().equals('/admin')} ? 'nav-link active' : 'nav-link'"-->
-<!--&lt;!&ndash;           th:classappend="${#httpServletRequest.requestURI == '/admin'} ? 'active'"&ndash;&gt;-->
-<!--           href="/admin">-->
-<!--            Admin-->
-<!--        </a>-->
-
-<!--        &lt;!&ndash; Ссылка User &ndash;&gt;-->
-<!--        <a class="navbar-brand"-->
-<!--           th:classappend="${#httpServletRequest.requestURI == '/admin/info'} ? 'active'"-->
-<!--           href="/admin/info">-->
-<!--            User-->
-<!--        </a>-->
-<!--    </div>-->
-<!--</nav>-->

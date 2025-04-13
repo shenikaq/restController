@@ -7,7 +7,7 @@
 
 <body>
 <!-- Modal -->
-<div th:each="user : ${users}" class="modal fade" th:attr="id=${'deleteModal' + user.id}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div th:each="user : ${users.get()}" class="modal fade" th:attr="id=${'deleteModal' + user.id}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form th:action="@{/admin/delete?id={userId}(userId=${user.id})}" method="get">
             <div class="modal-content">

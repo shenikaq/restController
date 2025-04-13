@@ -7,9 +7,9 @@
 
 <body>
 <!-- Modal -->
-<div th:each="user : ${users}" class="modal fade" th:attr="id=${'editModal' + user.id}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<div th:each="user : ${users.get()}" class="modal fade" th:attr="id=${'editModal' + user.id}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form th:action="@{/admin/edit}" method="get">
+        <form th:action="@{/admin/edit}" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title fs-5" id="editModalLabel">Edit user</h4>

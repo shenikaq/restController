@@ -1,6 +1,5 @@
 package org.example.spring_boot_security.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -9,11 +8,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Transient;
 import jakarta.persistence.ManyToMany;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Setter
 @Getter
-@EqualsAndHashCode
+//@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -37,6 +37,7 @@ public class Role implements GrantedAuthority, Comparable<Role> {
 
     @Transient
     @ManyToMany(mappedBy = "role")
+    @OnDelete(action = OnDeleteAction.CASCADE) // Удаляет записи в user_roles при удалении роли
     private Set<User> user;
 
     public Role (String role) {

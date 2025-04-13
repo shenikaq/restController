@@ -1,84 +1,87 @@
 package org.example.spring_boot_security.controller;
 
-import org.example.spring_boot_security.model.Role;
+import lombok.AllArgsConstructor;
 import org.example.spring_boot_security.model.User;
-import org.example.spring_boot_security.service.RoleService;
 import org.example.spring_boot_security.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-
+@AllArgsConstructor
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @GetMapping
-    public String listUsers(Model model) {
-        // Получаем всех пользователей из базы данных
-        List<User> users = userService.findAllWithRoles();
-        // Добавляем пользователей в модель для передачи в представление
-        model.addAttribute("users", users);
-        model.addAttribute("url", "/admin");
-        return "admin";
+    public ModelAndView listUsers() {
+        ModelAndView mav = new ModelAndView("admin");
+        mav.addObject("users", userService.findAllWithRoles());
+        mav.addObject("url", "/admin");
+        return mav;
     }
 
     @GetMapping("/info")
-    public String getAdmin(Principal principal, Model model) {
+    public ModelAndView getAdmin(Principal principal) {
+        ModelAndView mav = new ModelAndView("adminInfo");
         User user = userService.findByUsername(principal.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + principal.getName()));
-        model.addAttribute("user", user);
-        model.addAttribute("url", "/admin/info");
-        return "adminInfo";
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + principal.getName()));
+        mav.addObject("user", user);
+        mav.addObject("url", "/admin/info");
+        return mav;
     }
 
-    // для просмотра одного пользователя
-    @GetMapping("/users/info")
-    public String viewUser(@RequestParam Long id, Model model) {
-        User user = userService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
-        model.addAttribute("user", user);
-        model.addAttribute("url", "/admin/users/info");
-        return "user";
+    @PostMapping("/process-register")
+    public ModelAndView register(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
+        // Сохранение пользователя
+        userService.save(user);
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin");
+        modelAndView.addObject("url", "/register");
+        redirectAttributes.addFlashAttribute("message", "User registered successfully!");
+        return modelAndView;
+    }
+
+    @GetMapping("/register")
+    public ModelAndView registerUserForm() {
+        ModelAndView modelAndView = new ModelAndView("register");
+        modelAndView.addObject("url", "/register");
+        return modelAndView;
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam long id) {
+    public ModelAndView delete(@RequestParam long id) {
         userService.deleteUserById(id);
-        return "redirect:/admin";
+        return new ModelAndView("redirect:/admin");
     }
-////    /delete?id=2
 
-    @GetMapping("/save")
-    public String save(Model model, @RequestParam String userName, @RequestParam String lastName, @RequestParam Integer age, @RequestParam String email, @RequestParam String password, @RequestParam String role) {
-        userService.save(userName, lastName, age, email, passwordEncoder.encode(password), role);
-        model.addAttribute("url", "/admin/save");
-        return "redirect:/admin";
+    // Сохранение пользователя
+    @PostMapping("/save")
+    public ModelAndView save(@ModelAttribute("user") User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("admin");
+        }
+        userService.save(user);
+        return new ModelAndView("redirect:/admin");
     }
-////    ?userName=gigi&password=gigi&email=gi@gi
 
-    @GetMapping("/edit")
-    public String editUser(@RequestParam Long id, @RequestParam String userName, @RequestParam String lastName, @RequestParam Integer age, @RequestParam String email, @RequestParam String password, @RequestParam (name = "role", required = false) String role) {
-        userService.updateUser(id, userName, lastName, age, email, passwordEncoder.encode(password), role);
-        return "redirect:/admin";
+    // Обновление пользователя
+    @PostMapping("/edit")
+    public ModelAndView updateUser(@ModelAttribute("user") User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("admin");
+        }
+        userService.updateUser(user);
+        return new ModelAndView("redirect:/admin");
     }
-////    ?id=2&userName=fn1&email=e1
 
 }
