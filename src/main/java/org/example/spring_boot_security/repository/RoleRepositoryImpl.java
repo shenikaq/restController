@@ -28,22 +28,28 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public Optional<Set<Role>> findRoleByRole(Set<Role> roles) {
-        // Извлекаем имена ролей из переданных объектов
-        Set<String> roleNames = roles.stream()
-                .map(Role::getRole)
-                .collect(Collectors.toSet());
-        // Выполняем запрос по извлеченным именам
-        List<Role> foundRoles = entityManager.createQuery(
+    public Optional<Set<Role>> findRoleByRole(Set<String> roleNames) {
+        return Optional.of(entityManager.createQuery(
                         "SELECT r FROM Role r WHERE r.role IN :roleNames",
                         Role.class)
                 .setParameter("roleNames", roleNames)
-                .getResultList();
-        // Проверяем полное совпадение количества
-        if (foundRoles.size() != roles.size()) {
-            return Optional.empty();
-        }
-        return Optional.of(new HashSet<>(foundRoles));
+                .getResultStream()
+                .collect(Collectors.toSet()));
+//        // Извлекаем имена ролей из переданных объектов
+//        Set<String> roleNames = roles.stream()
+//                .map(Role::getRole)
+//                .collect(Collectors.toSet());
+        // Выполняем запрос по извлеченным именам
+//        List<Role> foundRoles = entityManager.createQuery(
+//                        "SELECT r FROM Role r WHERE r.role IN :roleNames",
+//                        Role.class)
+//                .setParameter("roleNames", roleNames)
+//                .getResultList();
+//        // Проверяем полное совпадение количества
+//        if (foundRoles.size() != roles.size()) {
+//            return Optional.empty();
+//        }
+//        return Optional.of(new HashSet<>(foundRoles));
     }
 
     @Override

@@ -30,7 +30,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Optional<Set<Role>> findRoleByRole(Set<Role> roles) {
-        return roleRepository.findRoleByRole(roles);
+        // Извлечение имён ролей
+        Set<String> roleNames = roles.stream()
+                .map(Role::getRole)
+                .collect(Collectors.toSet());
+        return roleRepository.findRoleByName(roleNames);
     }
 
     @Override
