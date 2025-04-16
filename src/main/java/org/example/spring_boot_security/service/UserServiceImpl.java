@@ -71,20 +71,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        // Проверка наличия ID
-        if (user.getId() == null) {
-            throw new IllegalArgumentException("User ID cannot be null for update");
+    public User updateUser(Long id, User user) {
+        // Проверка соответствия ID в пути и теле запроса
+        if (user.getId() == null || !id.equals(user.getId())) {
+            throw new IllegalArgumentException("User ID in path and body must match");
         }
-        // Поиск существующего пользователя
-        User existingUser = findById(user.getId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + user.getId()));
+        // Поиск существующего пользователя по ID из параметра
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
         // Обновление полей
         updateUserFields(existingUser, user);
         // Обновление ролей
         updateUserRoles(existingUser, user.getRole());
-        // Сохранение изменений
+        // Сохранение (не обязательно, но оставляем для явной операции)
         userRepository.save(existingUser);
+        return existingUser;
     }
 
     private void updateUserFields(User existingUser, User updatedUser) {
