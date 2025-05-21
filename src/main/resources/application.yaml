@@ -6,6 +6,8 @@
 #spring.datasource.username=root
 #spring.datasource.password=Dashok_191
 #spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
+#jwt.secret=your-256-bit-secret-key-with-at-least-32-characters
+#jwt.expiration=86400000 # 24 часа
 
 spring:
   datasource:
@@ -29,3 +31,7 @@ logging:
       springframework:
         security: DEBUG
       hibernate: debug
+
+jwt:
+  secret: your.256.bit.secret.key.with.at.least.32.characters
+  expiration: 86400000

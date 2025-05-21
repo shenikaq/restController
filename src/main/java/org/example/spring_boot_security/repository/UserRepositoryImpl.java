@@ -62,19 +62,5 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    @Override
-    public Optional<User> findByEmail(String email) {
-        try {
-            return Optional.of(entityManager.createQuery("""
-                SELECT DISTINCT u
-                FROM User u
-                LEFT JOIN FETCH u.role
-                WHERE u.email = :email""", User.class)
-                    .setParameter("email", email)
-                    .getSingleResult());
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
-    }
 
 }

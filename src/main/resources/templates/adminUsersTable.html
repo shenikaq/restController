@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm">
+                <div id="navbar-container-head"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div id="navbar-container-admin"></div>
+            </div>
+            <div class="col-sm">
+                <div class="container-lg">
+                    <div class="row">
+                        <div class="col-sm">
+                            <h1>Admin panel</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div id="navbar-container"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4>All users</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <table id="usersTable" class="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Roles</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody id="usersBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="editUserForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title fs-5">Edit user</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="form-group">
+                            <label for="editUserName">First name</label>
+                            <input name="userName" type="text" class="form-control" id="editUserName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLastName">Last name</label>
+                            <input name="lastName" type="text" class="form-control" id="editLastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAge">Age</label>
+                            <input name="age" type="number" class="form-control" id="editAge" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input name="email" type="email" class="form-control" id="editEmail" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="editPassword">Password</label>
+                            <input name="password" type="password" class="form-control" id="editPassword">
+                        </div>
+                        <div class="form-group">
+                            <label for="editRoles">Roles</label>
+                            <select class="form-control" multiple id="editRoles" name="roles" required>
+                                <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                <option value="ROLE_USER">ROLE_USER</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="deleteUserForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title fs-5">Delete user</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="deleteId">ID</label>
+                            <input name="id" type="text" class="form-control" id="deleteId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="deleteUserName">First name</label>
+                            <input name="userName" type="text" class="form-control" id="deleteUserName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="deleteLastName">Last name</label>
+                            <input name="lastName" type="text" class="form-control" id="deleteLastName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="deleteAge">Age</label>
+                            <input name="age" type="number" class="form-control" id="deleteAge" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="deleteEmail">Email</label>
+                            <input name="email" type="email" class="form-control" id="deleteEmail" readonly>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="deletePassword">Password</label>
+                            <input name="password" type="password" class="form-control" id="deletePassword" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="deleteRoles">Roles</label>
+                            <select class="form-control" multiple id="deleteRoles" name="roles" readonly>
+                                <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                <option value="ROLE_USER">ROLE_USER</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../scripts/navbarAdmin.js"></script>
+    <script src="../scripts/drawUsersTable.js"></script>
+    <script src="../scripts/modalDeleteUserForm.js"></script>
+    <script src="../scripts/modalEditUserForm.js"></script>
+
+</body>
+</html>

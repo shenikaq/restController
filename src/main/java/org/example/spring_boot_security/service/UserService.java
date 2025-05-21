@@ -9,10 +9,8 @@ public interface UserService {
 
     Optional<List<User>> findAllWithRoles();
     Optional<User> findByUsername(String userName);
-    void save(User user);
+    User save(User user);
     User updateUser(Long id, User user);
     void deleteUserById(Long id);
-    Optional<User> findById(Long id);
-    Optional<User> findByEmail(String email);
 
 }

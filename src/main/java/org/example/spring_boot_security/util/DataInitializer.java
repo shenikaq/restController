@@ -33,7 +33,7 @@ public class DataInitializer implements CommandLineRunner {
         Set<Role> user = roleService.findRoleByName(roleUser).get();
         Set<Role> admin = roleService.findRoleByName(roleAdmin).get();
 
-        User user1 = new User("dasha", "Last", 22, "dasha@dd.ru", "dasha", admin);
+        User user1 = new User("dasha", "Last", 22, "dasha@dd.ru", "dd", admin);
         userService.save(user1);
         User user2 = new User("Alice", "Saf", 32, "alice@aa.ru", "aa", user);
         userService.save(user2);

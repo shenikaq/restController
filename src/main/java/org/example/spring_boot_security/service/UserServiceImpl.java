@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     // Сохранение пользователя
     @Override
     @Transactional
-    public void save(User user) {
+    public User save(User user) {
         // Шифрование пароля
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         // Получение ролей из БД
@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         // Сохранение
         userRepository.save(user);
+        return user;
     }
 
     @Override
@@ -144,19 +145,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteUser(user);
     }
 
-    // Поиск по ID
-    @Override
-    @Transactional
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
-    }
-
-    // Поиск по email
-    @Override
-    @Transactional
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
 
 }
 

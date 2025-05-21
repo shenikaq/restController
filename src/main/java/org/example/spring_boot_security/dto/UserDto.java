@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.spring_boot_security.model.Role;
+import org.example.spring_boot_security.model.User;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 // DTO для ответов
-//@Bean
 @AllArgsConstructor
 @Setter
 @Getter
@@ -22,13 +24,17 @@ public class UserDto {
     private String email;
     private String password;
     private Set<String> role;
+    private User user;
 
-    public UserDto(Long id, String userName, String lastName, int age, String email, Set<String> role) {
-        this.id = id;
-        this.userName = userName;
-        this.lastName = lastName;
-        this.age = age;
-        this.email = email;
-        this.role = role;
+    public UserDto (User user) {
+        this.id = user.getId();
+        this.userName = user.getUsername();
+        this.lastName = user.getLastName();
+        this.age = user.getAge();
+        this.email = user.getEmail();
+        this.role = user.getRole().stream()
+                .map(Role::getAuthority)
+                .collect(Collectors.toSet());
     }
+
 }

@@ -16,10 +16,10 @@ import java.util.Set;
 public class UserRequest {
 
     private Long id;
-    private String userName;
+    private String username;
     private String lastName;
     private int age;
     private String email;
     private String password;
-    private Set<Role> role;
+    private Set<Role> roles;
 }

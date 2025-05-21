@@ -17,12 +17,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.spring_boot_security.dto.UserRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -60,6 +62,18 @@ public class User implements UserDetails {
     foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT) // Отключаем FK
     )
     private Set<Role> role;
+
+    public User(UserRequest userRequest) {
+        this.userName = userRequest.getUsername();
+        this.lastName = userRequest.getLastName();
+        this.age = userRequest.getAge();
+        this.email = userRequest.getEmail();
+        this.password = userRequest.getPassword();
+        this.role = userRequest.getRoles().stream()
+                .map(Role::getRole) // Берем название роли из объекта Role
+                .map(Role::new)     // Создаем новый объект Role из названия
+                .collect(Collectors.toSet());
+    }
 
     public User(String userName, String lastName, int age, String email, String password) {
         this.userName = userName;
