@@ -69,6 +69,7 @@ public class User implements UserDetails {
         this.age = userRequest.getAge();
         this.email = userRequest.getEmail();
         this.password = userRequest.getPassword();
+
         this.role = userRequest.getRoles().stream()
                 .map(Role::getRole) // Берем название роли из объекта Role
                 .map(Role::new)     // Создаем новый объект Role из названия

@@ -73,10 +73,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User updateUser(Long id, User user) {
-        // Проверка соответствия ID в пути и теле запроса
-        if (user.getId() == null || !id.equals(user.getId())) {
-            throw new IllegalArgumentException("User ID in path and body must match");
-        }
         // Поиск существующего пользователя по ID из параметра
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
