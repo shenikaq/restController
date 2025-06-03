@@ -34,43 +34,44 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
                                                    JwtAuthFilter jwtAuthFilter) throws Exception {
         httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)// Отключаем CSRF
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)// Отключаем CSRF защиту для REST API
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Включаем CORS
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/admin/api/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .logout(lOut -> lOut
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logout(lOut -> lOut // Настройка выхода из системы
+                        .invalidateHttpSession(true) // Очистка сессии
+                        .clearAuthentication(true) // Очистка аутентификации
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // URL для выхода
                         .permitAll()
                 )
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Без сессий (STATELESS), каждый запрос аутентифицируется отдельно
                 )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Добавляем JWT фильтр
 
         return httpSecurity.build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+        return config.getAuthenticationManager(); // Бин для аутентификации
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // Кодировщик паролей
     }
 
     @Bean
     public JwtAuthFilter jwtAuthFilter(JwtUtils jwtUtils, UserService userService) {
-        return new JwtAuthFilter(jwtUtils, userService);
+        return new JwtAuthFilter(jwtUtils, userService); // Создаём JWT фильтр
     }
 
+    //защищает от межсайтовых запросов
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -78,19 +79,19 @@ public class WebSecurityConfig {
                 "http://localhost:5500",  // Live Server
                 "http://127.0.0.1:5500",  // Альтернативный адрес
                 "http://localhost:8080",  // Сервер разработки
-                "*"
+                "*" // или разрешены все домены
         ));
         configuration.setAllowedMethods(Arrays.asList(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+                "GET", "POST", "PUT", "DELETE", "OPTIONS" // Разрешённые HTTP методы
         ));
         configuration.setAllowedHeaders(Arrays.asList(
-                "Authorization", "Cache-Control", "Content-Type"
+                "Authorization", "Cache-Control", "Content-Type" // Разрешённые заголовки
         ));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
+        configuration.setAllowCredentials(true); // Разрешаем куки и заголовки авторизации
+        configuration.setMaxAge(3600L); // Кешировать настройки CORS 1 час
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // Применяем ко всем путям
         return source;
     }
 }

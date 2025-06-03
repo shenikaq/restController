@@ -25,24 +25,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException, java.io.IOException {
 
-        final String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader("Authorization"); // Получаем заголовок
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response); // Если нет токена - пропускает запрос дальще
             return;
         }
 
-        String jwt = authHeader.substring(7);
-        if (jwtUtils.validateToken(jwt)) {
-            String username = jwtUtils.getUsernameFromToken(jwt);
-            User user = userService.findByUsername(username).get();
+        String jwt = authHeader.substring(7); // Извлекаем токен (после "Bearer ")
+        if (jwtUtils.validateToken(jwt)) { // Проверяем токен
+            String username = jwtUtils.getUsernameFromToken(jwt); // Получаем имя пользователя
+            User user = userService.findByUsername(username).get(); // Загружаем пользователя из базы
 
+            // Создаём объект аутентификации
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     user, null, user.getAuthorities());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+            // Устанавливаем аутентификацию в в SecurityContext
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response); // Продолжаем цепочку фильтров
     }
 }
