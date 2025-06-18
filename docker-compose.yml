@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: Dashok_191
+      MYSQL_DATABASE: sakila
+#      MYSQL_USER: springuser
+#      MYSQL_PASSWORD: springpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - spring-mysql-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=200
+      --innodb_buffer_pool_size=256M
+
+  app:
+    build: src/main/java
+    container_name: spring_app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/sakila
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Dashok_191
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/sakila?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#      SPRING_DATASOURCE_USERNAME: springuser
+#      SPRING_DATASOURCE_PASSWORD: springpass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_PROPERTIES_HIBERNATE_JDBC_BATCH_SIZE: 20
+      SPRING_JPA_PROPERTIES_HIBERNATE_ORDER_UPDATES: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_ORDER_INSERTS: true
+      SPRING_JPA_SHOW_SQL: true
+      JWT_SECRET: your.256.bit.secret.key.with.at.least.32.characters
+      JWT_EXPIRATION: 86400000
+      SPRING_THYMELEAF_PREFIX: classpath:/static/
+      SPRING_MVC_STATIC_PATH_PATTERN: /static/**
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/main/resources/static:/app/static:ro
+    networks:
+      - spring-mysql-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mysql_data:
+
+networks:
+  spring-mysql-net:
+    driver: bridge

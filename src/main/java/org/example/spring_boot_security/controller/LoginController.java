@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
+//http://127.0.0.1:5500/templates/login.html
 @AllArgsConstructor
 @RestController
 public class LoginController {
